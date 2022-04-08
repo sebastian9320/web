@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+    <title>Error</title>
+</head>
+<body>
+
+    <div th:replace="fragments/header :: navbar"></div>
+    <div class="row p-4">
+
+        <div class="error-wrap col-12">
+            <h2>Ocurrio un error...</h2>
+            <div th:if="${error != null }" th:replace="fragments/common :: alert"></div>
+        </div>
+        <div class="col-12">
+            <a class="btn btn-outline-success" th:href="@{'/profile/index/'}" >Volver atras</a>
+        </div>    
+    </div>
+</body>
+</html>

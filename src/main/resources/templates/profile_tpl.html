@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear perfil</title>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/4.0.0-2/css/bootstrap.min.css} "/>
+</head>
+<body>
+    <div th:replace="fragments/header :: navbar"></div>
+    <div class="col-md-10 offset-md-1 my-4">
+        <div class="card p-3">
+            <h2>Crear perfil</h2>
+            <hr>
+            <form action="" th:action="@{/profile/create}" th:object="${profile}" method="post">
+                <div class="form-group">
+                    <label for="nombre">Nombre: </label>
+                    <input class="form-control" type="text" th:field="*{nombre}" id="nombre" placeholder="">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="apellidos">Apellidos: </label>
+                    <input class="form-control" type="text" th:field="*{apellidos}" id="apellidos" placeholder="">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('apellidos')}" th:errors="*{apellidos}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="numeroTelefono">Número de telefono: </label>
+                    <input class="form-control" type="text" th:field="*{numeroTelefono}" id="numeroTelefono" placeholder="">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('numeroTelefono')}" th:errors="*{numeroTelefono}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email: </label>
+                    <input class="form-control" type="text" th:field="*{email}" id="email" placeholder="">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="pais">Pais: </label>
+                    <input class="form-control" type="text" th:field="*{pais}" id="pais" placeholder="">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('pais')}" th:errors="*{pais}"></div>
+                </div>
+                <div class="form-group">
+                    <label for="ciudad">Ciudad: </label>
+                    <input class="form-control" type="text" th:field="*{ciudad}" id="ciudad" placeholder="">
+                    <div class="alert alert-warning" th:if="${#fields.hasErrors('ciudad')}" th:errors="*{ciudad}"></div>
+                </div>
+                
+                <input class="btn btn-success" type="submit" value="Registrar" /> 
+                <input class="btn btn-primary" type="reset" value="Limpiar" />
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head></head>
+  <body>
+
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" th:fragment="alert">
+        <strong>Error!</strong> <span th:text="${error}"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+  </body>
+</html>
