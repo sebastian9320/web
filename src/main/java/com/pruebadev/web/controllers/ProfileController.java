@@ -4,7 +4,9 @@ import javax.validation.Valid;
 
 import com.pruebadev.web.common.Constants;
 import com.pruebadev.web.models.Profile;
+import com.pruebadev.web.services.users.UserService;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,15 +26,18 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Controller
-@RequestMapping(value="/profile")
+@RequestMapping({"/", "/profile"})
 public class ProfileController implements WebMvcConfigurer{
+
+    @Autowired
+    UserService userService;
 
     /**
      * Visualizar formulario inicial de registro de perfil
      * @param model
      * @return
      */
-    @GetMapping("/index")
+    @GetMapping({"/", "/index"})
     public String indexProfile(Model model){
         model.addAttribute("profile", new Profile());
         return "profile_tpl";
@@ -51,13 +56,7 @@ public class ProfileController implements WebMvcConfigurer{
             return "profile_tpl";
         }
         try{
-            WebClient webClient = WebClient.create(Constants.URL_SERVICE);
-            Mono<Profile> fluxProfile = webClient.post()
-                .uri("/users")
-                .body(Mono.just(profile), Profile.class)
-                .retrieve()
-                .bodyToMono(Profile.class);
-            Profile modelProfile = fluxProfile.share().block();
+            Profile modelProfile = userService.create(profile); 
             if(modelProfile != null && modelProfile.getId() != 0){
                 model.addAttribute("model", modelProfile);
                 model.addAttribute("newRecord", true);    
@@ -81,13 +80,7 @@ public class ProfileController implements WebMvcConfigurer{
     @GetMapping("/view/{id}")
     public String viewProfile(Model model, @PathVariable(value="id") Integer id){
         try{
-            WebClient webClient = WebClient.create(Constants.URL_SERVICE);
-            Flux<Profile> fluxProfile = webClient.get()
-                .uri("/users/" + id)
-                .retrieve()
-                .bodyToFlux(Profile.class);
-            Profile modelProfile = fluxProfile.share().blockFirst();
-            model.addAttribute("model", modelProfile);
+            model.addAttribute("model", userService.findOne(id));
         }catch(Exception e){
             model.addAttribute("error", e.getMessage());
             return "error_tpl";
@@ -105,14 +98,7 @@ public class ProfileController implements WebMvcConfigurer{
     public String listProfiles(Model model){
 
         try{
-            WebClient webClient = WebClient.create(Constants.URL_SERVICE);
-            Mono<Profile[]> fluxProfile = webClient.get()
-                .uri("/users/")
-                .accept(MediaType.APPLICATION_JSON)
-                .retrieve()
-                .bodyToMono(Profile[].class);
-            Profile[] listProfiles = fluxProfile.block();
-            model.addAttribute("list", listProfiles);
+            model.addAttribute("list", userService.findAll());
         }catch(Exception e){
             model.addAttribute("error", e.getMessage());
             return "error_tpl";
